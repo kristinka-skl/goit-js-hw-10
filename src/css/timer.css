@@ -13,7 +13,7 @@
     background-color: #fff;
     border: 1px solid #808080;    
 }
-.picker button {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,4 +57,8 @@
     line-height: 1.5;
     color: #2e2f42;
     text-transform: uppercase;
+}
+.is-active {
+    background-color: #4e75ff;
+    color: #fff;
 }

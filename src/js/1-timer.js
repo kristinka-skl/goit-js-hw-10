@@ -22,7 +22,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);    
-    if (selectedDates[0] < options.defaultDate) {
+    if (selectedDates[0] <= options.defaultDate) {
       buttonElem.classList.remove('is-active');
       iziToast.error({
         title: 'Error',

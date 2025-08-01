@@ -76,6 +76,11 @@ function setTimer() {
             timer[key].textContent = currentMoment[key];
         }
     } else {
+        iziToast.success({
+            title: 'OK',
+            message: 'Time is up! Let see what is next!',
+            position: "topRight",
+        });
         clearInterval(intervalId);
         intervalId = null;
         inputElem.removeAttribute("disabled", "");

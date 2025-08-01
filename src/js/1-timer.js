@@ -69,13 +69,12 @@ function handleButtonElem(){
 
 function setTimer() {
     const initTime = Date.now();
-    const diff = userSelectedDate.getTime() - initTime;
-    if (diff >= 0) {
-        const currentMoment = (convertMs(diff));
-        for (const key in timer) {
-            timer[key].textContent = currentMoment[key];
-        }
-    } else {
+    const diff = userSelectedDate.getTime() - initTime;    
+    const currentMoment = (convertMs(Math.max(0, diff)));
+    for (const key in timer) {
+        timer[key].textContent = currentMoment[key];
+    }        
+    if (diff < 1000) {    
         iziToast.success({
             title: 'OK',
             message: 'Time is up! Let see what is next!',

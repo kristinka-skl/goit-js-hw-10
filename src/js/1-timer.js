@@ -1,6 +1,10 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 const buttonElem = document.querySelector('button');
+const inputElem = document.querySelector('#datetime-picker');
 
 let timer = {
     days: document.querySelector('[data-days]'),
@@ -8,9 +12,9 @@ let timer = {
     minutes: document.querySelector('[data-minutes]'),
     seconds: document.querySelector('[data-seconds]'),
 }
-
 let userSelectedDate;
 let intervalId = null;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -20,16 +24,20 @@ const options = {
     console.log(selectedDates[0]);    
     if (selectedDates[0] < options.defaultDate) {
       buttonElem.classList.remove('is-active');
-      window.alert('Please choose a date in the future');      
+      iziToast.error({
+        title: 'Error',
+        message: 'Please choose a date in the future',
+        position: "topRight",
+      });           
     } else {
       buttonElem.classList.add('is-active');      
     }
-    userSelectedDate = selectedDates[0];
-    
+    userSelectedDate = selectedDates[0];    
   },
 };
-const inputElem = document.querySelector('#datetime-picker');
+
 const fp = flatpickr("#datetime-picker", options);
+
 function pad(value) {
   return String(value).padStart(2, '0');
 }
@@ -46,35 +54,31 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-
 buttonElem.addEventListener('click', handleButtonElem);
 function handleButtonElem(){
     buttonElem.classList.remove('is-active');
     inputElem.setAttribute("disabled", "");
-
+    setTimer();
     if (intervalId) {
         return;
-    }    
+    }
     intervalId = setInterval(()=>{        
-        const initTime = Date.now();
-        const diff = userSelectedDate.getTime() - initTime;
-        if (diff >= 0) {
-            const currentMoment = (convertMs(diff));        
-            for (const key in timer) {    
-                timer[key].textContent = currentMoment[key];
-            }
-        } else {
-            clearInterval(intervalId);
-            inputElem.removeAttribute("disabled", "");
-        }
+        setTimer();
     }, 1000);
 }
 
-
-
-
-
-
-
-
+function setTimer() {
+    const initTime = Date.now();
+    const diff = userSelectedDate.getTime() - initTime;
+    if (diff >= 0) {
+        const currentMoment = (convertMs(diff));
+        for (const key in timer) {
+            timer[key].textContent = currentMoment[key];
+        }
+    } else {
+        clearInterval(intervalId);
+        intervalId = null;
+        inputElem.removeAttribute("disabled", "");
+    }
+}
 

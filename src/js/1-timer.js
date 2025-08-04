@@ -3,10 +3,10 @@ import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-const buttonElem = document.querySelector('button');
 const inputElem = document.querySelector('#datetime-picker');
+const startButton = document.querySelector('[data-start]');
 
-let timer = {
+const timer = {
     days: document.querySelector('[data-days]'),
     hours: document.querySelector('[data-hours]'),
     minutes: document.querySelector('[data-minutes]'),
@@ -14,6 +14,7 @@ let timer = {
 }
 let userSelectedDate;
 let intervalId = null;
+startButton.setAttribute('disabled', '');
 
 const options = {
   enableTime: true,
@@ -22,15 +23,15 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);    
-    if (selectedDates[0] <= options.defaultDate) {
-      buttonElem.classList.remove('is-active');
+    if (selectedDates[0] <= new Date()) { 
+      startButton.setAttribute('disabled', '');     
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
         position: "topRight",
       });           
     } else {
-      buttonElem.classList.add('is-active');      
+      startButton.removeAttribute('disabled', '');      
     }
     userSelectedDate = selectedDates[0];    
   },
@@ -54,10 +55,10 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-buttonElem.addEventListener('click', handleButtonElem);
+startButton.addEventListener('click', handleButtonElem);
 function handleButtonElem(){
-    buttonElem.classList.remove('is-active');
-    inputElem.setAttribute("disabled", "");
+  startButton.setAttribute('disabled', '');
+    inputElem.setAttribute("disabled", '');
     setTimer();
     if (intervalId) {
         return;
@@ -82,7 +83,7 @@ function setTimer() {
         });
         clearInterval(intervalId);
         intervalId = null;
-        inputElem.removeAttribute("disabled", "");
+        inputElem.removeAttribute("disabled", '');
     }
 }
 

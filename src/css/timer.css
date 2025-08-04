@@ -41,17 +41,21 @@
     border-radius: 8px;
     padding: 8px 16px;
     width: 75px;
-    height: 40px;
-    background-color: #cfcfcf;
+    height: 40px;    
     font-weight: 500;
     font-size: 16px;
     line-height: 1.5;
-    letter-spacing: 0.04em;
-    color: #989898;
+    letter-spacing: 0.04em;    
+    background-color: #4e75ff;
+    color: #fff;
     transition: background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.button.is-active:hover,
-.button.is-active:focus {
+.button:disabled {
+    background-color: #cfcfcf;
+    color: #989898;
+}
+.button:enabled:hover,
+.button:enabled:focus {
     background-color: #6c8cff;
 }
 .timer {
@@ -84,8 +88,4 @@
     line-height: 1.5;
     color: #2e2f42;
     text-transform: uppercase;
-}
-.is-active {
-    background-color: #4e75ff;
-    color: #fff;
 }

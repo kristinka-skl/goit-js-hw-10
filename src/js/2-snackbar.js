@@ -8,7 +8,7 @@ formElem.addEventListener('submit', handleButtonElem);
 function handleButtonElem(event) {
     event.preventDefault();
     document.activeElement.blur();
-    const delay = formInputElem.value;
+    const delay = Number(formInputElem.value);
     const isFulfilled = document.querySelector('input[name="state"]:checked').value === 'fulfilled';   
     const promise = createPromise(delay, isFulfilled);    
     promise.then(()=>{
